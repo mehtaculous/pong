@@ -13,7 +13,7 @@ canvas.height = height;
 var context = canvas.getContext('2d');
 var player = new Player();
 var computer = new Computer();
-var ball = new Ball(350, 250);
+var ball = new Ball(397.5, 247.5);
 
 window.onload = function() {
 	document.getElementById("canvasContainer").appendChild(canvas);
@@ -21,7 +21,7 @@ window.onload = function() {
 };
 
 var render = function() {
-	context.fillStyle = "transparent";
+	context.fillStyle = "black";
 	context.fillRect(0, 0, width, height);
 	player.render();
 	computer.render();
@@ -36,6 +36,7 @@ var step = function() {
 
 var update = function() {
 	player.update();
+	computer.update(ball);
 	ball.update(player.paddle, computer.paddle);
 };
 
@@ -79,9 +80,9 @@ Player.prototype.render = function() {
 Player.prototype.update = function() {
 	for (var key in keysDown) {
 		var value = Number(key);
-		if (value == 38) {
+		if (value === 38) {
 			this.paddle.move(0, -4); // up arrow
-		} else if (value == 40) {
+		} else if (value === 40) {
 			this.paddle.move(0, 4); // down arrow
 		} else {
 			this.paddle.move(0, 0);
@@ -95,6 +96,25 @@ function Computer() {
 
 Computer.prototype.render = function() {
 	this.paddle.render();
+};
+
+Computer.prototype.update = function(ball) {
+	var yPos = ball.y;
+	var diff = -((this.paddle.y + (this.paddle.height / 2)) - yPos);
+	
+	if (diff < 0 && diff < -4) {
+		diff = -4;
+	} else if (diff > 0 && diff > 4) {
+		diff = 4;
+	}
+	
+	this.paddle.move(0, diff);
+	
+	if (this.paddle.y < 0) {
+		this.paddle.y = 0;
+	} else if (this.paddle.y + this.paddle.height > 500) {
+		this.paddle.y = 500 - this.paddle.height;
+	}
 };
 
 function Ball(x, y) {
@@ -128,15 +148,27 @@ Ball.prototype.update = function(paddle1, paddle2) {
 		this.y_speed = -this.y_speed;
 	}
 	
+	if (this.x < 0 || this.x > 800) {
+		if (this.x < 0) {
+			this.x_speed = -3;
+			this.y_speed = 0;
+		} else if (this.x > 800) {
+			this.x_speed = 3;
+			this.y_speed = 0;
+		}
+		this.x = 397.5;
+		this.y = 247.5;
+	}
+	
 	if (top_x > 400) {
 		if (top_x < (paddle1.x + paddle1.width) && bottom_x > paddle1.x && top_y < (paddle1.y + paddle1.height) && bottom_y > paddle1.y) {
-			this.x_speed = -3;
+			this.x_speed = -5;
 			this.y_speed += (paddle1.y_speed / 2);
 			this.x += this.x_speed;
 		}
 	} else {
 		if (top_x < (paddle2.x + paddle2.width) && bottom_x > paddle2.x && top_y < (paddle2.y + paddle2.height) && bottom_y > paddle2.y) {
-			this.x_speed = 3;
+			this.x_speed = 5;
 			this.y_speed += (paddle2.y_speed / 2);
 			this.x += this.x_speed;
 		}
