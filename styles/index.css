@@ -21,7 +21,7 @@ body {
 	margin: 0 auto;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	border: 5px solid #ffffff;
+	border: 5px solid #fff;
 }
 
 #canvasContainer {
@@ -32,7 +32,25 @@ body {
 	background-image: url(../assets/images/maze.jpg);
 }
 
-.midfield {
+#computerScore {
+	position: relative;
+	left: -30px;
+	bottom: 480px;
+	text-align: center;
+	color: #fff;
+	font-size: 25px;
+}
+
+#playerScore {
+	position: relative;
+	left: 30px;
+	bottom: 509px;
+	text-align: center;
+	color: #fff;
+	font-size: 25px;
+}
+
+#midfield {
 	width: 5px;
 	height: 500px;
 	margin: 0 auto;

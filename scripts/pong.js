@@ -11,6 +11,8 @@ var height = 500;
 canvas.width = width;
 canvas.height = height;
 var context = canvas.getContext('2d');
+var playerScore = 0;
+var computerScore = 0;
 var player = new Player();
 var computer = new Computer();
 var ball = new Ball(397.5, 247.5);
@@ -152,9 +154,13 @@ Ball.prototype.update = function(paddle1, paddle2) {
 		if (this.x < 0) {
 			this.x_speed = -3;
 			this.y_speed = 0;
+			playerScore ++;
+			document.getElementById("playerScore").innerHTML = playerScore;
 		} else if (this.x > 800) {
 			this.x_speed = 3;
 			this.y_speed = 0;
+			computerScore ++;
+			document.getElementById("computerScore").innerHTML = computerScore;	
 		}
 		this.x = 397.5;
 		this.y = 247.5;
