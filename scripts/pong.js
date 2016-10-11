@@ -156,11 +156,19 @@ Ball.prototype.update = function(paddle1, paddle2) {
 			this.y_speed = 0;
 			playerScore ++;
 			document.getElementById("playerScore").innerHTML = playerScore;
+			if (playerScore === 11) {
+				window.alert("You Won! Would you like to play again?");
+				resetScore();
+			}
 		} else if (this.x > 800) {
 			this.x_speed = 3;
 			this.y_speed = 0;
 			computerScore ++;
-			document.getElementById("computerScore").innerHTML = computerScore;	
+			document.getElementById("computerScore").innerHTML = computerScore;
+			if (computerScore === 11) {
+				window.alert("You Lost! Would you like to play again?");
+				resetScore();
+			}
 		}
 		this.x = 397.5;
 		this.y = 247.5;
@@ -179,6 +187,13 @@ Ball.prototype.update = function(paddle1, paddle2) {
 			this.x += this.x_speed;
 		}
 	}
+}
+
+function resetScore() {
+	playerScore = 0;
+	computerScore = 0;
+	document.getElementById("playerScore").innerHTML = playerScore;
+	document.getElementById("computerScore").innerHTML = computerScore;
 }
 
 var keysDown = {};
